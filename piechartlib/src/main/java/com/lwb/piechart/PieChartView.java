@@ -161,103 +161,6 @@ public class PieChartView extends View {
         }
     }
 
-    private void drawTitle() {
-        resetPaint();
-        float startRadius = defaultStartAngle;
-        int count = rightTypeList.size();
-        int h;
-        if (count > 1) {
-            h = (radius * 2) / (count - 1);
-        } else {
-            h = radius;
-        }
-        for (int i = 0; i < count; i++) {
-            mPath.reset();
-            PieChartView.ItemType itemType = rightTypeList.get(i);
-            double angle = 2 * Math.PI * ((startRadius + itemType.radius / 2) / 360d);
-            int x = (int) (width / 2 + radius * Math.cos(angle));
-            int y = (int) (height / 2 + radius * Math.sin(angle));
-            startPoint.set(x, y);
-            centerPoint.set((int) (width / 2 + radius * 1.2f), height / 2 - radius + h * (i));
-            endPoint.set((int) (width * 0.98f), centerPoint.y);
-            mPath.moveTo(startPoint.x, startPoint.y);
-            mPath.lineTo(centerPoint.x, centerPoint.y);
-            mPath.lineTo(endPoint.x, endPoint.y);
-            resetPaint();
-            mPaint.setStrokeWidth(2);
-            mPaint.setColor(itemType.color);
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPathMeasure.setPath(mPath, false);
-            drawLinePath.reset();
-            mPathMeasure.getSegment(0, mPathMeasure.getLength() * offLine, drawLinePath, true);
-            mCanvas.drawPath(drawLinePath, mPaint);
-            startRadius += itemType.radius;
-
-            if (textAlpha > 0) {
-                mPaint.setTextSize(itemTextSize);
-                mPaint.setStyle(Paint.Style.FILL);
-                mPaint.setTextAlign(Paint.Align.CENTER);
-                mPaint.setAlpha(textAlpha);
-                mCanvas.drawText(itemType.type, centerPoint.x + (endPoint.x - centerPoint.x) / 2,
-                        centerPoint.y - textPadding, mPaint);
-                mPaint.setTextSize(itemTextSize * 4 / 5);
-                mCanvas.drawText(itemType.getPercent(), centerPoint.x + (endPoint.x - centerPoint.x) / 2,
-                        centerPoint.y + (itemTextSize + textPadding) * 4 / 5, mPaint);
-            }
-        }
-
-        count = leftTypeList.size();
-        if (count > 1) {
-            h = (radius * 2) / (count - 1);
-        } else {
-            h = radius;
-        }
-
-        for (int i = 0; i < count; i++) {
-            mPath.reset();
-            PieChartView.ItemType itemType = leftTypeList.get(i);
-            double angle = 2 * Math.PI * ((startRadius + itemType.radius / 2) / 360d);
-            int x = (int) (width / 2 + radius * Math.cos(angle));
-            int y = (int) (height / 2 + radius * Math.sin(angle));
-            startPoint.set(x, y);
-            centerPoint.set((int) (width / 2 - radius * 1.2f), height / 2 - radius + h * (count - 1 - i));
-            endPoint.set((int) (width * 0.02f), centerPoint.y);
-            mPath.moveTo(startPoint.x, startPoint.y);
-            mPath.lineTo(centerPoint.x, centerPoint.y);
-            mPath.lineTo(endPoint.x, endPoint.y);
-            resetPaint();
-            mPaint.setStrokeWidth(2);
-            mPaint.setColor(itemType.color);
-            mPaint.setAntiAlias(true);
-            mPaint.setDither(true);
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPathMeasure.setPath(mPath, false);
-            drawLinePath.reset();
-            mPathMeasure.getSegment(0, mPathMeasure.getLength() * offLine, drawLinePath, true);
-            mCanvas.drawPath(drawLinePath, mPaint);
-            startRadius += itemType.radius;
-
-            if (textAlpha > 0) {
-                mPaint.setTextSize(itemTextSize);
-                mPaint.setStyle(Paint.Style.FILL);
-                mPaint.setTextAlign(Paint.Align.CENTER);
-                mPaint.setAlpha(textAlpha);
-                mCanvas.drawText(itemType.type, centerPoint.x + (endPoint.x - centerPoint.x) / 2,
-                        centerPoint.y - textPadding, mPaint);
-                mPaint.setTextSize(itemTextSize * 4 / 5);
-                mCanvas.drawText(itemType.getPercent(), centerPoint.x + (endPoint.x - centerPoint.x) / 2,
-                        centerPoint.y + (itemTextSize + textPadding) * 4 / 5, mPaint);
-            }
-        }
-
-        if (textAlpha == 1f) {
-            itemTypeList.clear();
-            leftTypeList.clear();
-            rightTypeList.clear();
-            itemPoints.clear();
-        }
-    }
-
     private void drawPie() {
         if (mCanvas == null) {
             return;
@@ -382,25 +285,7 @@ public class PieChartView extends View {
     public void setBackGroundColor(int backGroundColor) {
         this.backGroundColor = backGroundColor;
     }
-
-    /**
-     * 设置每条字体大小
-     *
-     * @param itemTextSize
-     */
-    public void setItemTextSize(int itemTextSize) {
-        this.itemTextSize = itemTextSize;
-    }
-
-    /**
-     * 设置字体距离横线的padding值
-     *
-     * @param textPadding
-     */
-    public void setTextPadding(int textPadding) {
-        this.textPadding = textPadding;
-    }
-
+    
     /**
      * 设置动画时间
      *
