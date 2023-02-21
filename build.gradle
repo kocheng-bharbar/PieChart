@@ -26,7 +26,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'kocheng-bharbar'
             artifactId = 'PieChart'
-            version = "1.1.1"
+            version = "master-SNAPSHOT"
             from piechartlib/src/main/java/com/lwb/piechart/PieChartView.java
 
             pom {
