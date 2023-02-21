@@ -25,7 +25,7 @@ publishing {
             groupId = 'kocheng-bharbar'
             artifactId = 'PieChart'
             version = "1.1.1"
-            from components.java
+            from PieChartView.java
 
             pom {
                 description = 'A description of my library'
